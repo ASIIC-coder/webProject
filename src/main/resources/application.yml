@@ -1,0 +1,33 @@
+server:
+  port: 8582
+  servlet:
+    context-path: /community
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mybatis
+    username: root
+    password: (3.1415926Pai)
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 5
+      idle-timeout: 30000
+
+  thymeleaf:
+    cache: false
+    content-type: text/html
+    mode: LEGACYHTML5
+
+mybatis:
+  mapper-locations: classpath:Mapper/*Mapper.xml
+  type-aliases-package: com.ahg.community.entity
+  configuration:
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+
+#logging:
+#  level.com.ahg.community: debug
+#  file: d:/workspace/data/ahg/community.log
