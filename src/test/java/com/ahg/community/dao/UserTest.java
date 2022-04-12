@@ -1,6 +1,8 @@
 package com.ahg.community.dao;
 
 import com.ahg.community.entity.DiscussPost;
+import com.ahg.community.entity.LoginTicket;
+import com.ahg.community.entity.Message;
 import com.ahg.community.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,12 @@ public class UserTest {
 
     @Autowired
     private DiscussPostMapper discussPostMapper;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Test
     public void testSelectUser(){
@@ -68,6 +76,51 @@ public class UserTest {
 
         int rows = discussPostMapper.selectDiscussPostRows(149);
         System.out.println(rows);
+
+    }
+
+    @Test
+    public void testInsertLoginTicket(){
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(101);
+        loginTicket.setTicket("alibaba");
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60 * 10));
+
+        loginTicketMapper.insertLoginTicket(loginTicket);
+    }
+
+    @Test
+    public void testSelectLoginTicket(){
+        LoginTicket loginTicket = loginTicketMapper.selectByTicket("alibaba");
+        System.out.println(loginTicket);
+
+        loginTicketMapper.updateStatus("alibaba", 2);
+        loginTicket = loginTicketMapper.selectByTicket("alibaba");
+        System.out.println(loginTicket);
+
+    }
+
+
+    @Test
+    public void testSelectLetters(){
+        List<Message> list = messageMapper.selectConversations(111, 0, 20);//查询111用户的会话，分页0，每页展示20条数据
+        for(Message message : list){
+            System.out.println(message);
+        }
+        int count = messageMapper.selectConversationCount(111);
+        System.out.println(count);//查询某用户会话的数量
+
+        List<Message> letters = messageMapper.selectLetters("111_112", 0, 10);
+        for(Message message : list){
+            System.out.println(message);
+        }
+
+        int letterCount = messageMapper.selectLetterCount("111_112");
+        System.out.println(letterCount);
+
+        int unreadCount = messageMapper.selectLetterUnreadCount(131, "111_131");
+        System.out.println(unreadCount);
 
     }
 

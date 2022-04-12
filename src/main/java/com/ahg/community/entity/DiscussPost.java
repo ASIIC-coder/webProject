@@ -1,5 +1,7 @@
 package com.ahg.community.entity;
 
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import java.util.Date;
 
 public class DiscussPost {
@@ -10,7 +12,7 @@ public class DiscussPost {
     private String content;
     private Integer type;
     private Integer status;
-    private Date creatTime;
+    private Date createTime;
     private Integer commentCount;
     private Double score;
 
@@ -23,7 +25,7 @@ public class DiscussPost {
                 ", content='" + content + '\'' +
                 ", type=" + type +
                 ", status=" + status +
-                ", creatTime=" + creatTime +
+                ", createTime=" + createTime +
                 ", commentCount=" + commentCount +
                 ", score=" + score +
                 '}';
@@ -77,12 +79,12 @@ public class DiscussPost {
         this.status = status;
     }
 
-    public Date getCreatTime() {
-        return creatTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Integer getCommentCount() {

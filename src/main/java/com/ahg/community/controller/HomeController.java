@@ -4,7 +4,9 @@ import com.ahg.community.entity.DiscussPost;
 import com.ahg.community.entity.Page;
 import com.ahg.community.entity.User;
 import com.ahg.community.service.DiscussPostService;
+import com.ahg.community.service.LikeService;
 import com.ahg.community.service.UserService;
+import com.ahg.community.util.CommunityConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +20,16 @@ import java.util.List;
 import java.util.Map;
 
 @Controller//controller访问路径可以省略
-public class HomeController {
+public class HomeController implements CommunityConstant {
 
     @Autowired
     private DiscussPostService discussPostService;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LikeService likeService;
 
     //处理请求的方法
     @RequestMapping(path = "/index", method = RequestMethod.GET)
@@ -41,6 +46,10 @@ public class HomeController {
                 map.put("post",post);
                 User user = userService.findUserById(post.getUserId());
                 map.put("user", user);
+
+                long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());
+                map.put("likeCount", likeCount);
+
                 discussPosts.add(map);
             }
         }
@@ -50,5 +59,12 @@ public class HomeController {
 
         return "/index"; //返回路径
     }
+
+    @RequestMapping(path = "/error", method = RequestMethod.GET)
+    public String getErrorPage(){
+        return "/error/500";
+    }
+
+
 
 }
