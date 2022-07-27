@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 public class CommunityApplication {
 
     @PostConstruct
-    public void init(){
+    public void init() {
         //解决netty启动冲突的问题
         //drr Netty4Utils
         System.setProperty("es.set.netty.runtime.available.processors", "false");

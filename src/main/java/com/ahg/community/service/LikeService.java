@@ -17,7 +17,7 @@ public class LikeService {
 
     //点赞
     //生成对某个实体的点赞的key,同时设置二次点赞取消
-    public void like(int userId, int entityType, int entityId, int entityUserId){
+    public void like(int userId, int entityType, int entityId, int entityUserId) {
 //        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType,entityId);
 //        boolean isMember = redisTemplate.opsForSet().isMember(entityLikeKey, userId);
 //        System.out.println("##############" + isMember);
@@ -31,18 +31,18 @@ public class LikeService {
         redisTemplate.execute(new SessionCallback() {
             @Override
             public Object execute(RedisOperations operations) throws DataAccessException {
-                String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType,entityId);
+                String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
                 String userLikeKey = RedisKeyUtil.getUserLikeKey(entityUserId);
 
                 boolean isMember = operations.opsForSet().isMember(entityLikeKey, userId);
 
                 operations.multi();
 
-                if(isMember){
-                    operations.opsForSet().remove(entityLikeKey,userId);
+                if (isMember) {
+                    operations.opsForSet().remove(entityLikeKey, userId);
                     operations.opsForValue().decrement(userLikeKey);
-                }else {
-                    operations.opsForSet().add(entityLikeKey,userId);
+                } else {
+                    operations.opsForSet().add(entityLikeKey, userId);
                     operations.opsForValue().increment(userLikeKey);
                 }
                 return operations.exec();
@@ -52,19 +52,19 @@ public class LikeService {
     }
 
     //查询某实体点赞的数量
-    public long findEntityLikeCount(int entityType, int entityId){
-        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType,entityId);
+    public long findEntityLikeCount(int entityType, int entityId) {
+        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
         return redisTemplate.opsForSet().size(entityLikeKey);
     }
 
     //查询某人对某实体的点赞状态
-    public int findEntityLikeStatus(int userId, int entityType, int entityId){
-        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType,entityId);
+    public int findEntityLikeStatus(int userId, int entityType, int entityId) {
+        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
         return redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? 1 : 0;
     }
 
     //查询某个用户获得的赞
-    public int findUserLikeCount(int userId){
+    public int findUserLikeCount(int userId) {
         String userLikeKey = RedisKeyUtil.getUserLikeKey(userId);
         Integer count = (Integer) redisTemplate.opsForValue().get(userLikeKey);
         return count == null ? 0 : count.intValue();

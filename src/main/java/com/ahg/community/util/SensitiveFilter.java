@@ -28,13 +28,13 @@ public class SensitiveFilter {
 
     //初始化前缀树
     @PostConstruct
-    public void init(){
+    public void init() {
         try (
                 InputStream is = this.getClass().getClassLoader().getResourceAsStream("sensitive_words.txt");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        ){
+        ) {
             String keyWord;
-            while((keyWord = reader.readLine()) != null){
+            while ((keyWord = reader.readLine()) != null) {
                 //添加到前缀树
                 this.addKeyword(keyWord);
             }
@@ -44,13 +44,13 @@ public class SensitiveFilter {
     }
 
     //将一个敏感词添加到前缀树中
-    private void addKeyword(String keyword){
+    private void addKeyword(String keyword) {
         TrieNode tempNode = rootNode;
-        for(int i = 0; i < keyword.length(); i++){//每次遍历得到一个字符
+        for (int i = 0; i < keyword.length(); i++) {//每次遍历得到一个字符
             //初始化子节点
             char c = keyword.charAt(i);
             TrieNode subNode = tempNode.getSubNode(c);
-            if(subNode == null){
+            if (subNode == null) {
                 //初始化子节点
                 subNode = new TrieNode();
                 tempNode.addSubNode(c, subNode);
@@ -60,19 +60,20 @@ public class SensitiveFilter {
             tempNode = subNode;
 
             //设置结束标识
-            if(i == keyword.length() - 1){
+            if (i == keyword.length() - 1) {
                 tempNode.setKeywordEnd(true);
             }
         }
     }
 
     /**
-     * 过滤铭感词
+     * 过滤敏感词
+     *
      * @param text 带过滤的文本
      * @return 过滤后的文本
      */
-    public String filter(String text){
-        if(StringUtils.isBlank(text)){
+    public String filter(String text) {
+        if (StringUtils.isBlank(text)) {
             return null;
         }
 
@@ -85,13 +86,13 @@ public class SensitiveFilter {
         //结果
         StringBuilder sb = new StringBuilder();
 
-        while (position < text.length()){
+        while (position < text.length()) {
             char c = text.charAt(position);
 
             //跳过符号
-            if(isSymbol(c)){
+            if (isSymbol(c)) {
                 //若指针1处于根节点,将此符号计入结果,让指针2向前走一步
-                if(tempNode == rootNode){
+                if (tempNode == rootNode) {
                     sb.append(c);
                     begin++;
                 }
@@ -102,7 +103,7 @@ public class SensitiveFilter {
 
             //检查下级节点
             tempNode = tempNode.getSubNode(c);//当前节点被下级节点覆盖
-            if(tempNode == null){
+            if (tempNode == null) {
                 //以begin开头的字符串不是敏感词
                 sb.append(text.charAt(begin));
 
@@ -110,14 +111,14 @@ public class SensitiveFilter {
                 position = ++begin;
                 tempNode = rootNode;
 
-            }else if(tempNode.isKeywordEnd()){
+            } else if (tempNode.isKeywordEnd()) {
                 //敏感词begin开头，position结尾
                 //发现敏感词,将begin到position字符串替换掉
                 sb.append(REPLACEMENT);
                 //position进入下一位置
                 begin = ++position;
                 tempNode = rootNode;
-            }else {
+            } else {
                 // 检查下一个字符
                 position++;
             }
@@ -130,13 +131,13 @@ public class SensitiveFilter {
     }
 
     //判断是否为符号
-    private boolean isSymbol(Character c){
+    private boolean isSymbol(Character c) {
         // 0x2E80， 0x9FFF
         return !CharUtils.isAsciiAlphanumeric(c) && (c < 0x2E80 || c > 0x9FFF);
     }
 
     //定义前缀树的结构
-    private class TrieNode{
+    private class TrieNode {
 
         //关键词结束标志
         private boolean isKeywordEnd = false;
@@ -153,12 +154,12 @@ public class SensitiveFilter {
         }
 
         //添加子节点的方法
-        public void addSubNode(Character c, TrieNode node){
+        public void addSubNode(Character c, TrieNode node) {
             subNodes.put(c, node);
         }
 
         //获取子节点
-        public TrieNode getSubNode(Character c){
+        public TrieNode getSubNode(Character c) {
             return subNodes.get(c);
         }
     }

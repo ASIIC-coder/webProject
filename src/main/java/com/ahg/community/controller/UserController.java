@@ -56,21 +56,21 @@ public class UserController implements CommunityConstant {
 
     @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
-    public String getSettingPage(){
+    public String getSettingPage() {
         return "/site/setting";
     }
 
     @LoginRequired
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
-    public String uploadHeader(MultipartFile headerImage, Model model){
-        if(headerImage == null){
+    public String uploadHeader(MultipartFile headerImage, Model model) {
+        if (headerImage == null) {
             model.addAttribute("error", "您还没有选择图片");
             return "/site/setting";
         }
 
         String fileName = headerImage.getOriginalFilename();
         String suffix = fileName.substring(fileName.lastIndexOf("."));
-        if(StringUtils.isBlank(suffix)){
+        if (StringUtils.isBlank(suffix)) {
             model.addAttribute("error", "文件格式不正确");
             return "/site/setting";
         }
@@ -123,16 +123,16 @@ public class UserController implements CommunityConstant {
 
     @LoginRequired
     @RequestMapping(path = "/passwordFolder", method = RequestMethod.POST)
-    public String changePassword(String password, Model model){
-        if(password == null){
+    public String changePassword(String password, Model model) {
+        if (password == null) {
             model.addAttribute("warn", "请输入需要修改的密码");
         }
 
         User user = hostHolder.getUser();//获取当前用户
         String password1 = user.getPassword();
         password = CommunityUtil.md5(password + user.getSalt());
-        if(password1.equals(password)){
-            model.addAttribute("safeWarn","新密码不能和原密码一致");
+        if (password1.equals(password)) {
+            model.addAttribute("safeWarn", "新密码不能和原密码一致");
         }
         userService.updatePassword(user.getId(), password);//调用业务层修改密码的功能updatePassword
 
@@ -140,17 +140,17 @@ public class UserController implements CommunityConstant {
     }
 
     //个人主页
-    @RequestMapping(path = "/profile/{userId}",method = RequestMethod.GET)
-    public String getProfilePage(@PathVariable("userId") int userId, Model model){
+    @RequestMapping(path = "/profile/{userId}", method = RequestMethod.GET)
+    public String getProfilePage(@PathVariable("userId") int userId, Model model) {
         User user = userService.findUserById(userId);
-        if(user == null){
+        if (user == null) {
             throw new RuntimeException("该用户不存在!");
         }
 
         //用户
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         int likeCount = likeService.findUserLikeCount(userId);
-        model.addAttribute("likeCount",likeCount);
+        model.addAttribute("likeCount", likeCount);
 
         //关注数
         long followeeCount = followService.findFolloweeCount(userId, ENTITY_TYPE_USER);//查询某一个用户，id为用户id,实体为用户的实体
@@ -160,7 +160,7 @@ public class UserController implements CommunityConstant {
         model.addAttribute("followerCount", followerCount);
         //是否已关注
         boolean hasFollowed = false;
-        if(hostHolder.getUser() != null){
+        if (hostHolder.getUser() != null) {
             hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
         }
         model.addAttribute("hasFollowed", hasFollowed);

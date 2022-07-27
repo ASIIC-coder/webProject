@@ -34,18 +34,18 @@ public class AlphaService {
     //声明式业务的管理方式demo方法
     //
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)//注解方式进行事务管理，隔离级别为二级
-                                                        //配置事务时，还需要配置传播机制 required、required_new、nested三种常用常量
-    public Object save1(){
+    //配置事务时，还需要配置传播机制 required、required_new、nested三种常用常量
+    public Object save1() {
         //新增用户
         User user = new User();
         user.setSalt("alpha");
-        user.setSalt(CommunityUtil.generateUUID().substring(0,5));
+        user.setSalt(CommunityUtil.generateUUID().substring(0, 5));
         user.setPassword(CommunityUtil.md5("123" + user.getSalt()));
         user.setEmail("adfas@183.com");
         user.setHeaderUrl("http://inagas.anq.com/head/99t.png");
         user.setCreateTime(new Date());
         userMapper.insertUser(user);//将用户插入到数据库中 在userMapper中 插入完成后会生成Id赋给-->keyProperty = "id"
-                                    //然后mybatis向数据库请求此用户Id
+        //然后mybatis向数据库请求此用户Id
 
         //新增帖子
         DiscussPost post = new DiscussPost();
@@ -60,10 +60,10 @@ public class AlphaService {
         return "ok";
     }
 
-    public Object save2(){
+    public Object save2() {
         transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_UNCOMMITTED);
         transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-        
+
         //传入回调接口
         return transactionTemplate.execute(new TransactionCallback<Object>() {
             @Override

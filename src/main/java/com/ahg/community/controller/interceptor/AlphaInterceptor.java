@@ -14,18 +14,18 @@ public class AlphaInterceptor implements HandlerInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(AlphaInterceptor.class);
 
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         logger.debug("preHandle: " + handler.toString());
         return true;
     }
 
     //在Controller之后运行
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView){
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         logger.debug("postHandle: " + handler.toString());
     }
 
     //在TemplateEngine之后执行
-    public void afterCompletion(HttpServletResponse request, HttpServletResponse response, Object handler, Exception ex){
+    public void afterCompletion(HttpServletResponse request, HttpServletResponse response, Object handler, Exception ex) {
         logger.debug("afterCompletion: " + handler.toString());
     }
 

@@ -53,7 +53,7 @@ public class Event {
         return entityUserId;
     }
 
-    public Event setEntityUserId(int entityUserId) {
+    public Event setEntityUserId(int entityUserId) {//
         this.entityUserId = entityUserId;
         return this;
     }
@@ -62,7 +62,7 @@ public class Event {
         return data;
     }
 
-    public Event setData(String key, Object value) {
+    public Event setData(String key, Object value) {//形参
         this.data.put(key, value);
         return this;
     }

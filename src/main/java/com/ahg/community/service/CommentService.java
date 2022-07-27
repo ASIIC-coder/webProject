@@ -24,18 +24,18 @@ public class CommentService implements CommunityConstant {
     @Autowired
     private DiscussPostService discussPostService;
 
-    public List<Comment> findCommentsByEntity(int entityType, int entityId, int offset, int limit){
-        return commentMapper.selectCommentsByEntity(entityType,entityId,offset,limit);
+    public List<Comment> findCommentsByEntity(int entityType, int entityId, int offset, int limit) {
+        return commentMapper.selectCommentsByEntity(entityType, entityId, offset, limit);
     }
 
-    public int findCommentCount(int entityType, int entityId){
+    public int findCommentCount(int entityType, int entityId) {
         return commentMapper.selectCountByEntity(entityType, entityId);
     }
 
     //增加业务方法，对数据库有两次DML操作---所以此方法需进行事务管理（当前整个方法在一个事务范围之内，采用注解方式隔离管理）
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public int addComment(Comment comment){
-        if(comment == null){
+    public int addComment(Comment comment) {
+        if (comment == null) {
             throw new IllegalArgumentException("参数不能为空");
         }
 
@@ -46,17 +46,17 @@ public class CommentService implements CommunityConstant {
         int rows = commentMapper.insertComment(comment);//添加完成后，返回值为影响的行数
 
         //更新帖子的评论数量
-        if(comment.getEntityType() == ENTITY_TYPE_POST){//判断参数类型是否为帖子
-                                                        //第一个参数传入类型entityType， 第二个参数entityId
+        if (comment.getEntityType() == ENTITY_TYPE_POST) {//判断参数类型是否为帖子
+            //第一个参数传入类型entityType， 第二个参数entityId
             int count = commentMapper.selectCountByEntity(comment.getEntityType(), comment.getEntityId());
-                                                //根据帖子的Id,将数量更新到最新的数量
+            //根据帖子的Id,将数量更新到最新的数量
             discussPostService.updateCommentCount(comment.getEntityId(), count);
 
         }
         return rows;
     }
 
-    public Comment findCommentById(int id){
+    public Comment findCommentById(int id) {
         return commentMapper.selectCommentById(id);
     }
 

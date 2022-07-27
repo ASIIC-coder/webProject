@@ -8,7 +8,7 @@
     </sql>
 
     <sql id="insertFields">
-    user_id, entity_type, entity_id, target_id, content, status, create_time
+        user_id, entity_type, entity_id, target_id, content, status, create_time
     </sql>
 
     <insert id="insertComment" parameterType="com.ahg.community.entity.Comment">
@@ -17,7 +17,8 @@
     </insert>
 
     <select id="selectCommentsByEntity" resultType="com.ahg.community.entity.Comment">
-        select <include refid="selectFields"></include>
+        select
+        <include refid="selectFields"></include>
         from comment
         where status = 0
         and entity_type = #{entityType}
@@ -35,7 +36,8 @@
 
     </select>
     <select id="selectCommentById" resultType="com.ahg.community.entity.Comment">
-        select <include refid="selectFields"></include>
+        select
+        <include refid="selectFields"></include>
         from comment
         where id = #{id}
     </select>
