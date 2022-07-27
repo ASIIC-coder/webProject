@@ -10,31 +10,31 @@ public class AlphaAspect {
 
     //定义切点
     @Pointcut("execution(* com.ahg.community.service.*.*(..))")
-    public void pointcut(){
+    public void pointcut() {
 
     }
 
     //定义通知
     //在连接点开始之前记录日志
     @Before("pointcut()")
-    public void before(){
+    public void before() {
         System.out.println("before,already log ");
     }
 
     @After("pointcut()")
-    public void after(){
+    public void after() {
         System.out.println("after");
 
     }
 
     @AfterReturning("pointcut()")
-    public void afterReturning(){
+    public void afterReturning() {
         System.out.println("afterReturning");
 
     }
 
     @AfterThrowing("pointcut()")
-    public void afterThrowing(){
+    public void afterThrowing() {
         System.out.println("afterThrowing");
     }
 

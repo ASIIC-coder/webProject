@@ -28,14 +28,14 @@ public class EventConsumer implements CommunityConstant {
     private MessageService messageService;
 
     @KafkaListener(topics = {TOPIC_COMMENT, TOPIC_LIKE, TOPIC_FOLLOW})
-    public void handleCommentMessage(ConsumerRecord record){
-        if(record == null || record.value() == null){
+    public void handleCommentMessage(ConsumerRecord record) {
+        if (record == null || record.value() == null) {
             logger.error("消息的内容为空");
         }
 
-                                                                //字符串对应的类型
+        //字符串对应的类型
         Event event = JSONObject.parseObject(record.value().toString(), Event.class);
-        if(event == null){
+        if (event == null) {
             logger.error("消息格式错误");
             return;
         }
@@ -53,8 +53,8 @@ public class EventConsumer implements CommunityConstant {
         content.put("entityType", event.getEntityType());//得到触发事件类型--给...点赞、评论、关注
         content.put("entityId", event.getEntityId());//得到事件的实体Id
 
-        if(!event.getData().isEmpty()){             //遍历一个key-value集合
-            for (Map.Entry<String, Object> entry : event.getData().entrySet()){
+        if (!event.getData().isEmpty()) {             //遍历一个key-value集合
+            for (Map.Entry<String, Object> entry : event.getData().entrySet()) {
                 //将key-value中的得到的属性值添加到内容中
                 content.put(entry.getKey(), entry.getValue());
             }

@@ -28,11 +28,12 @@ public class MailClient { //MailClient类为一个客户端
 
     /**
      * 定义发送邮件方法-->格式、内容、主题的定义
+     *
      * @param to
      * @param subject
      * @param content
      */
-    public void sendMail(String to, String subject, String content){
+    public void sendMail(String to, String subject, String content) {
 
         try {
             //构建邮件的主体模板

@@ -1,31 +1,26 @@
 package com.ahg.community;
 
 
+import com.ahg.community.util.SensitiveFilter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = CommunityApplication.class)
-public class LoggerTests {
+public class SensitiveTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoggerTests.class);
-
+    @Autowired
+    private SensitiveFilter sensitiveFilter;
 
     @Test
-    public void testLogger() {
-        System.out.println(logger.getName());
-
-        logger.debug("debugger.log");
-        logger.info("info log");
-        logger.warn("warn log");
-        logger.error("error log");
-
+    public void testSensitiveFilter() {
+        String text = "习以为常";
+        text = sensitiveFilter.filter(text);
+        System.out.println(text);
     }
 }

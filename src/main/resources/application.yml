@@ -5,7 +5,7 @@ server:
 
 
 spring:
-#  数据库数据源配置
+  #  数据库数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mybatis
@@ -17,15 +17,16 @@ spring:
       minimum-idle: 5
       idle-timeout: 30000
 
-#模板引擎的配置
+  
+  #模板引擎的配置
   thymeleaf:
     prefix: classpath:/templates/
     cache: false
     content-type: text/html
     mode: LEGACYHTML5
     check-template-location: true
-
-#  邮箱发送配置
+  
+  #  邮箱发送配置
   mail:
     port: 465
     host: smtp.sina.com
@@ -44,7 +45,7 @@ spring:
     database: 11
     host: localhost
     port: 6379
-# kafka配置
+  # kafka配置
   kafka:
     bootstrap-servers:
       - localhost:9092
@@ -52,7 +53,7 @@ spring:
       group-id: community-consumer-group
       enable-auto-commit: true
       auto-commit-interval: 3000
-#      Elasticsearch配置
+  #      Elasticsearch配置
   data:
     elasticsearch:
       cluster:
@@ -79,7 +80,5 @@ community:
   path:
     domain: http://localhost:8582
     upload: d:/work/data/upload
-
-
 
 

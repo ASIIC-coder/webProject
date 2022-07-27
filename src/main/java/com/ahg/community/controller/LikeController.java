@@ -30,7 +30,7 @@ public class LikeController implements CommunityConstant {
 
     @RequestMapping(path = "/like", method = RequestMethod.POST)
     @ResponseBody
-    public String like(int entityType, int entityId, int entityUserId, int postId){
+    public String like(int entityType, int entityId, int entityUserId, int postId) {
         User user = hostHolder.getUser();//获取当前用户
         //点赞
         likeService.like(user.getId(), entityType, entityId, entityUserId);
@@ -40,12 +40,12 @@ public class LikeController implements CommunityConstant {
         int likeStatus = likeService.findEntityLikeStatus(user.getId(), entityType, entityId);
 
         //统一封装为map集合传给页面
-         Map<String, Object> map = new HashMap<>();
-         map.put("likeCount", likeCount);
-         map.put("likeStatus", likeStatus);
+        Map<String, Object> map = new HashMap<>();
+        map.put("likeCount", likeCount);
+        map.put("likeStatus", likeStatus);
 
-         //触发点赞事件的事件的构建
-        if(likeStatus == 1){//判断是点赞还是取消点赞
+        //触发点赞事件的事件的构建
+        if (likeStatus == 1) {//判断是点赞还是取消点赞
             Event event = new Event()
                     .setTopic(TOPIC_LIKE)
                     .setUserId(hostHolder.getUser().getId())//谁给我点赞？
@@ -58,7 +58,7 @@ public class LikeController implements CommunityConstant {
 
         }
 
-         return CommunityUtil.getJSONString(0, null, map);
+        return CommunityUtil.getJSONString(0, null, map);
 
     }
 }

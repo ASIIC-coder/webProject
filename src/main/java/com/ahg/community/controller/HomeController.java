@@ -33,17 +33,17 @@ public class HomeController implements CommunityConstant {
 
     //处理请求的方法
     @RequestMapping(path = "/index", method = RequestMethod.GET)
-    public String getIndexPage(Model model, Page page){//在springboot中方法的参数由dispatchServlet初始化
+    public String getIndexPage(Model model, Page page) {//在springboot中方法的参数由dispatchServlet初始化
         //SpringMVC会自动实例化Model,Page.并将Page注入Model
         //在thymeleaf中可以直接访问Page对象中的数据
         page.setRows(discussPostService.findDiscussPostRows(0));//首页，传入零。不以用户Id显示行数
         page.setPath("/index"); //显示页面的路径
-        List<DiscussPost> list = discussPostService.findDiscussPosts(0,page.getOffset(),page.getLimit());
+        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
         List<Map<String, Object>> discussPosts = new ArrayList<>();//封装discussPost和对应的user对象
-        if(list != null){
-            for(DiscussPost post: list){
+        if (list != null) {
+            for (DiscussPost post : list) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("post",post);
+                map.put("post", post);
                 User user = userService.findUserById(post.getUserId());
                 map.put("user", user);
 
@@ -53,7 +53,7 @@ public class HomeController implements CommunityConstant {
                 discussPosts.add(map);
             }
         }
-        model.addAttribute("discussPosts",discussPosts);
+        model.addAttribute("discussPosts", discussPosts);
 
         System.out.println("Test service!!!!");
 
@@ -61,10 +61,9 @@ public class HomeController implements CommunityConstant {
     }
 
     @RequestMapping(path = "/error", method = RequestMethod.GET)
-    public String getErrorPage(){
+    public String getErrorPage() {
         return "/error/500";
     }
-
 
 
 }

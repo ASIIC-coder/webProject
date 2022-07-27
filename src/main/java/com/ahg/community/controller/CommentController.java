@@ -33,9 +33,8 @@ public class CommentController implements CommunityConstant {
     private DiscussPostService discussPostService;
 
 
-
     @RequestMapping(path = "/add/{discussPostId}", method = RequestMethod.POST)
-    public String addComment(@PathVariable("discussPostId") int discussPostId, Comment comment){
+    public String addComment(@PathVariable("discussPostId") int discussPostId, Comment comment) {
 
         System.out.println("请求开始执行！！！" + discussPostId);
         int id = hostHolder.getUser().getId();
@@ -53,10 +52,10 @@ public class CommentController implements CommunityConstant {
                 .setEntityId(comment.getEntityId())
                 .setData("postId", discussPostId);
         //entityUserId的确定需要先做查询
-        if(comment.getEntityType() == ENTITY_TYPE_POST){
+        if (comment.getEntityType() == ENTITY_TYPE_POST) {
             DiscussPost target = discussPostService.findDiscussPostById(comment.getEntityId());//得到评论的目标
             event.setEntityUserId(target.getUserId());//得到帖子作者id
-        }else if(comment.getEntityType() == ENTITY_TYPE_COMMENT){
+        } else if (comment.getEntityType() == ENTITY_TYPE_COMMENT) {
             Comment target = commentService.findCommentById(comment.getEntityId());
             event.setUserId(target.getUserId());//得到键盘侠的id
         }

@@ -26,7 +26,7 @@ public class UserTest {
     private MessageMapper messageMapper;
 
     @Test
-    public void testSelectUser(){
+    public void testSelectUser() {
         User user = userMapper.selectById(101);
         System.out.println(user);
 
@@ -39,7 +39,7 @@ public class UserTest {
 
 
     @Test
-    public void testInsertUser(){
+    public void testInsertUser() {
         User user = new User();
         user.setUsername("test");
         user.setPassword("sos1123");
@@ -53,7 +53,7 @@ public class UserTest {
     }
 
     @Test
-    public void updateUser(){
+    public void updateUser() {
         int rows = userMapper.updateStatus(150, 1);
         System.out.println(rows);
 
@@ -61,16 +61,16 @@ public class UserTest {
 
         System.out.println(rows);
 
-        rows = userMapper.updatePassword(150,"hello");
+        rows = userMapper.updatePassword(150, "hello");
         System.out.println(rows);
 
 
     }
 
     @Test
-    public void testSelectPosts(){
-        List<DiscussPost> list = discussPostMapper.selectDiscussPosts(149,0,10);
-        for(DiscussPost post : list){
+    public void testSelectPosts() {
+        List<DiscussPost> list = discussPostMapper.selectDiscussPosts(149, 0, 10);
+        for (DiscussPost post : list) {
             System.out.println(post);
         }
 
@@ -80,7 +80,7 @@ public class UserTest {
     }
 
     @Test
-    public void testInsertLoginTicket(){
+    public void testInsertLoginTicket() {
         LoginTicket loginTicket = new LoginTicket();
         loginTicket.setUserId(101);
         loginTicket.setTicket("alibaba");
@@ -91,7 +91,7 @@ public class UserTest {
     }
 
     @Test
-    public void testSelectLoginTicket(){
+    public void testSelectLoginTicket() {
         LoginTicket loginTicket = loginTicketMapper.selectByTicket("alibaba");
         System.out.println(loginTicket);
 
@@ -103,16 +103,16 @@ public class UserTest {
 
 
     @Test
-    public void testSelectLetters(){
+    public void testSelectLetters() {
         List<Message> list = messageMapper.selectConversations(111, 0, 20);//查询111用户的会话，分页0，每页展示20条数据
-        for(Message message : list){
+        for (Message message : list) {
             System.out.println(message);
         }
         int count = messageMapper.selectConversationCount(111);
         System.out.println(count);//查询某用户会话的数量
 
         List<Message> letters = messageMapper.selectLetters("111_112", 0, 10);
-        for(Message message : list){
+        for (Message message : list) {
             System.out.println(message);
         }
 
